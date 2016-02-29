@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <script src="js/session.js"></script>
+  <script src="js/app.js"></script>
+  <title>FoxBox request client</title>
+</head>
+<body role="application">
+  <h1>FoxBox client</h1>
+
+  <div class="main-form">
+
+    <section id="config-form">
+      <h3>Config</h3>
+      <section id="signin" hidden>
+        <label>Host</label>
+        <input type="text" id="host-input" placeholder="url">
+        <label>User</label>
+        <input type="text" id="user" placeholder="admin">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="">
+        <button id="signin-button">Sign in</button>
+      </section>
+    </section>
+
+    <section id="signedin">
+      <p>
+        <span id="host">localhost</span>
+      </p>
+      <small>You are signed in as</small> <b>admin</b>
+      <button id="signout-button">Sign out</button>
+
+      <section id="services">
+        <h3>Services</h3>
+        <samp id="services-list">
+          []
+        </samp>
+      </section>
+
+      <section id="request-form">
+        <h3>Request</h3>
+        <label>Endpoint</label>
+        <input type="text" id="endpoint" placeholder="endpoint">
+        <label>Method</label>
+        <select id="method">
+          <option>POST</option>
+          <option>GET</option>
+          <option>PUT</option>
+        </select>
+        <label>Body</label>
+        <textarea id="body">{}</textarea>
+        <button id="send-button">Send</button>
+      </section>
+
+      <section>
+        <h3>Response</h3>
+        <samp id="response">
+          Response
+        </samp>
+      </section>
+    </session>
+  </div>
+
+</body>
+</html>
