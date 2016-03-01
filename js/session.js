@@ -45,15 +45,20 @@
     },
 
     request: function(method, endpoint, body) {
-      return fetch(this._session.host + endpoint, {
+      var options = {
         method: method,
         mode: 'cors',
         redirect: 'follow',
         headers: new Headers({
           'Authorization': 'Bearer ' + this._session.token
-        }),
-        body: body
-      });
+        })
+      };
+
+      if (body && body.length) {
+        options.body = body;
+      }
+
+      return fetch(this._session.host + endpoint, options);
     }
   };
 }(window));

@@ -68,6 +68,8 @@ textarea {
   display: block;
   padding: 15px;
   width: 100%;
+  height: auto;
   font-size: small;
   overflow: hidden;
+  resize: none;
 }

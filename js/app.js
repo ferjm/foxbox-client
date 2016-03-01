@@ -41,10 +41,13 @@ var ELEMENTS = [{
   screen: SIGNED_IN,
   selector: '#send-button',
   event: 'click',
-  listener: 'send'
+  listener: 'request'
 }, {
   screen: SIGNED_IN,
   selector: '#response'
+}, {
+  screen: SIGNED_IN,
+  selector: '#token'
 }];
 
 function getElementName(str) {
@@ -74,6 +77,7 @@ var App = {
       App.show(SIGN_IN);
     } else {
       App.show(SIGNED_IN);
+      App.showToken();
       App.showServices();
     }
   },
@@ -124,6 +128,13 @@ var App = {
     this.loadElements(screen);
   },
 
+  showToken: function() {
+    if (!App.elements.token) {
+      return;
+    }
+    App.elements.token.textContent = App.session.token;
+  },
+
   showServices: function() {
     if (!App.elements.servicesList) {
       return;
@@ -147,6 +158,7 @@ var App = {
 
     Session.set(host, user, pwd).then(function() {
       App.show(SIGNED_IN);
+      App.showToken();
       App.showServices();
     }).catch(function(error) {
       window.alert('Signin error ' + error);
@@ -156,6 +168,43 @@ var App = {
   signout: function() {
     Session.clear();
     App.show(SIGN_IN);
+  },
+
+  request: function() {
+    var endpoint = App.elements.endpoint.value;
+    var method = App.elements.method.value;
+    var body = App.elements.body.value;
+
+    if (!endpoint || !method) {
+      console.error('Missing endpoint or method');
+      return;
+    }
+
+    var responseText = "";
+    Session.request(method, endpoint, body).then(function(response) {
+      console.log(response);
+      responseText += response.url + "\n" +
+                      response.status + " " + response.statusText + "\n";
+      var headerKeys = response.headers.keys();
+      var header;
+      while (header = headerKeys.next()) {
+        if (header.done) {
+          break;
+        }
+        responseText += header.value + ": " +
+          response.headers.get(header.value) + "\n\n";
+      }
+      response.json();
+    }).then(function(json) {
+      if (json) {
+        responseText += json;
+      }
+      var element = App.elements.response;
+      element.textContent = responseText;
+      element.style.height = element.scrollHeight + 'px';
+    }).catch(function(error) {
+      console.error('ERROR', error);
+    });
   }
 };
 
