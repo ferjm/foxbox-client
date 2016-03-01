@@ -132,7 +132,7 @@ var App = {
     if (!App.elements.token) {
       return;
     }
-    App.elements.token.textContent = App.session.token;
+    App.elements.token.textContent = 'Token ' + App.session.token;
   },
 
   showServices: function() {
